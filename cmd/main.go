@@ -5,6 +5,7 @@ import (
 	"flag"
 	"os"
 
+	leader "github.com/zikster3262/k8s-leader-election/pkg/leader"
 	clientset "k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/klog"
@@ -37,10 +38,9 @@ func main() {
 	if err != nil {
 		klog.Fatalf("failed to get kubeconfig")
 	}
-
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	// lock := getNewLock(leaseLockName, podName, leaseLockNamespace)
-	// runLeaderElection(lock, ctx, podName)
+	lock := leader.GetNewLock(leaseLockName, podName, leaseLockNamespace)
+	leader.RunLeaderElection(lock, ctx, podName)
 }

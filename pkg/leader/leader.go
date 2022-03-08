@@ -15,7 +15,7 @@ var (
 	client *clientset.Clientset
 )
 
-func getNewLock(lockname, podname, namespace string) *resourcelock.LeaseLock {
+func GetNewLock(lockname, podname, namespace string) *resourcelock.LeaseLock {
 	return &resourcelock.LeaseLock{
 		LeaseMeta: metav1.ObjectMeta{
 			Name:      lockname,
@@ -35,7 +35,7 @@ func doStuff() {
 	}
 }
 
-func runLeaderElection(lock *resourcelock.LeaseLock, ctx context.Context, id string) {
+func RunLeaderElection(lock *resourcelock.LeaseLock, ctx context.Context, id string) {
 	leaderelection.RunOrDie(ctx, leaderelection.LeaderElectionConfig{
 		Lock:            lock,
 		ReleaseOnCancel: true,
